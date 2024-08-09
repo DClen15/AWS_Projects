@@ -1,0 +1,12 @@
+
+##Making an asymmetric sign/verify KMS key 
+`aws kms create-key --key-usage SIGN_VERIFY --key-spec RSA 2048`
+
+##Creating a message digest with openSSL
+`openssl dgst -sha256 -binary -out message_digest_test test`
+
+##Using the Sign API
+`aws kms sign --key-id <insert-key-id> --signing-algorithm RSASSA_PKCS1_V1_5_SHA_256 --message-type RAW --message fileb://message_digest_test`
+
+##Using the Verify API 
+`aws kms verify --key-id <insert-key-id> --signing-algorithm RSASSA_PKCS1_V1_5_SHA_256 --message-type RAW --message fileb://message_digest_test` --signature <insert signature generate by sign API>
